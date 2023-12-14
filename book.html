@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Form with Navigation Bar</title>
+  <style>
+    /* Reset some default styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #007bff;
+      padding: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+    }
+
+    /* Form Container */
+    .form-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px; /* Add top padding */
+    }
+
+    /* Form Section Headings */
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    .form-section h2 {
+      color: #007bff;
+      font-size: 24px;
+      margin-top: 0;
+    }
+ 
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #2E8B57;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <a href="index.php">HOME</a>
+    <a href="contact.html">CONTACT US</a>
+  </div>
+
+  <div class="form-container">
+    <form action="misc.php" method="post">
+      <div class="form-section" id="visiting-info">
+        <h2>VISITING INFORMATION</h2>
+        <!-- Visiting Information Form Fields -->
+        <div class="form-group">
+          <label for="select-site">Select Site</label>
+          <select id="select-site" name="select-site" class="large-select" required>
+            <option value="Taj Mahal">Taj Mahal</option>
+            <option value="Qutub Minar">Qutub Minar</option>
+            <option value="Ellora Caves">Ellora Caves</option>
+            <option value="Chennai Museum">Chennai Museum</option>
+            <option value="red fort">red fort</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="visit-date">Visit Date</label>
+          <input type="date" id="visit-date" name="visit-date" class="large-input" required>
+        </div>
+      </div>
+      <div class="form-section" id="contact-information">
+        <h2>CONTACT INFORMATION</h2>
+        <!-- Contact Information Form Fields -->
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" required>
+        </div>
+        <div class="form-group">
+          <label for="nationality">Nationality</label>
+          <input type="text" id="nationality" name="nationality" required>
+        </div>
+      </div>
+      <div class="form-section" id="num-of-visitors">
+        <h2>NO. OF VISITORS</h2>
+        <!-- No. of Visitors Form Fields -->
+        <div class="form-group">
+          <label for="num-visitors">Number of Visitors</label>
+          <input type="number" id="num-visitors" name="num-visitors" required>
+        </div>
+      </div>
+      <input type="submit" value="Submit" id="submit-btn">
+
+    </form>
+ </div>
+
+</body>
+<!-- QR code library -->
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+<script type="text/javascript">
+
+async function initiateTransaction(callback, totalCost) {
+  try {
+    // Get the user's accounts from MetaMask
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+    // Send Ethereum to the recipient address
+    ethereum
+      .request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: accounts[0], // The user's active address.
+            to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970', // Required except during contract publications.
+            value: `0x${(totalCost * 10**18).toString(16)}`, // Convert totalCost to wei and pass to MetaMask
+            gasPrice: '0x09184e72a000', // Customizable by the user during MetaMask confirmation.
+            gas: '0x2710', // Customizable by the user during MetaMask confirmation.
+          },
+        ],
+      })
+      .then((txHash) => console.log(txHash))
+      .catch((error) => console.error(error));
+
+    // Call the callback function to print the qr even if the transaction is not success
+   
+  } catch (error) {
+    console.error(error);
+    callback();
+    // Handle the error here, for example by displaying an error message to the user
+  }
+}
+
+
+let invoiceWindow;
+
+const form = document.querySelector('form');
+const submitBtn = document.querySelector('#submit-btn');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault(); // prevent form from submitting
+    const formData = new FormData(form); // extract form data
+    const site = formData.get('select-site');
+    const visitDate = formData.get('visit-date');
+    const name = formData.get('name');
+    const numVisitors = parseInt(formData.get('num-visitors')); // convert string to number
+    const costPerVisitor = 0.005; // define cost per visitor
+    const totalCost = numVisitors * costPerVisitor; // calculate total cost
+
+    // create invoice popup
+    invoiceWindow = window.open('', 'Invoice', 'width=500,height=500');
+   invoiceWindow.document.write(`
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px;">INVOICE</h2>
+      <p><strong>Site:</strong> ${site}</p>
+      <p><strong>Visit Date:</strong> ${visitDate}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Number of Visitors:</strong> ${numVisitors}</p>
+      <p><strong>Total Cost:</strong> ${totalCost} ETH</p>
+      <button id="pay-btn" style="background-color: #4CAF50; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-top: 20px; cursor: pointer;">Pay Now</button>
+  `);
+ 
+
+    // listen for payment button click
+    const payBtn = invoiceWindow.document.querySelector('#pay-btn');
+    payBtn.addEventListener('click', () => {
+      initiateTransaction(() => {
+        // submit the form
+        form.submit();
+        // close the invoice window
+        invoiceWindow.close()
+      }, totalCost);
+    });
+  });
+
+</script>
+
+</html>

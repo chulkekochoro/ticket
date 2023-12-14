@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <title>Displaying Content Based on Query Parameters</title>
+    <style>
+      /* CSS for container */
+      .container {
+        display: block;
+        justify-content: center; /* Center the container horizontally */
+        align-items: center; /* Center the container vertically */
+        height: 100vh;
+      }
+
+      /* CSS for navigation bar */
+      .navbar {
+        background-color: #007bff;
+        padding: 15px;
+        text-align: left;
+      }
+
+      .navbar a {
+        padding: 8px 10px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      /* CSS for "Book Now" button */
+      .book-now-button {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        padding: 10px;
+        text-align: center;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      /* CSS for image section */
+      .image-section {
+         align-items: center;
+        margin-top:1px;
+        justify-content: center;
+
+      }
+      #title{
+        margin-top: 3px;
+        text-align: center;
+        font-size: 4em;
+      }
+      .card h1 {
+        margin-top: 20px;
+      }
+
+      .image-section img {
+        max-width: 100%;
+        max-height: 600px; /* Set the maximum height of the image */
+        height: auto;
+        margin:auto;
+      }
+      .description-section{
+        margin: 30px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="navbar">
+      <a href="index.php">Home</a>
+      <a href="contact.html">contact us</a>
+    </div>
+<div class="container">
+  <div class="card">
+    
+    <div class="image-section">
+      <img id="image" src="">
+      <h1 id="title"></h1>
+    </div>
+    <div class="description-section">
+      <p id="description"></p>
+    </div>
+    <div class="button-section">
+      <a class="book-now-button" href="book.html">Book Now</a>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    
+    // Get the query parameters from the URL
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+// Get the card identifier from the query parameters
+const cardIdentifier = urlParams.get('card');
+
+// Display the appropriate content for the card
+const title = document.getElementById('title');
+const description = document.getElementById('description');
+const image = document.getElementById('image');
+
+switch (cardIdentifier) {
+  case 'TajMahal':
+    title.innerText = 'TajMahal';
+    description.innerText = 'The Taj Mahalis an ivory-white marble mausoleum on the right bank of the river Yamuna in Agra, Uttar Pradesh, India. It was commissioned in 1631 by the fifth Mughal emperor, Shah Jahan (r. 1628–1658) to house the tomb of his favourite wife, Mumtaz Mahal; it also houses the tomb of Shah Jahan himself. The tomb is the centrepiece of a 17-hectare (42-acre) complex, which includes a mosque and a guest house, and is set in formal gardens bounded on three sides by a crenellated wall.';
+    image.src = 'https://img.itinari.com/pages/images/original/9f615ca8-8bbb-46a6-85a2-b4825f815ba1-44829498324_77297564a1_k.jpg?ch=DPR&dpr=1&w=1600&s=2e8624c73358e5afd755157c2c739c57';
+    break;
+  case 'QutubMinar':
+    title.innerText = 'QutubMinar';
+    description.innerText = 'Qutub Minar, is a minaret and "victory tower" that forms part of the Qutb complex, which lies at the site of Delhi’s oldest fortified city, Lal Kot, founded by the Tomar Rajputs.[3] It is a UNESCO World Heritage Site in the Mehrauli area of South Delhi, India. It is one of the most visited tourist spots in the city, mostly built between 1199 and 1220.';
+    image.src = 'https://www.savaari.com/blog/wp-content/uploads/2022/08/marvin-castelino-z4GzALvJ8xs-unsplash-2-768x1024.jpg';
+    break;
+    case 'ChennaiMuseum':
+    title.innerText = 'Chennai Museum';
+    description.innerText = 'The Government Museum, Chennai, or the Madras Museum, is a museum of human history and culture located in the Government Museum Complex in the neighbourhood of Egmore in Chennai, India. Started in 1851, it is the second oldest museum in India after the Indian Museum in Kolkata. It is particularly rich in archaeological and numismatic collections.';
+    image.src = 'https://www.savaari.com/blog/wp-content/uploads/2022/08/marvin-castelino-z4GzALvJ8xs-unsplash-2-768x1024.jpg';
+    break;
+    case 'RedFort':
+    title.innerText = 'Red Fort';
+    description.innerText = 'The Red Fort or Lal Qila is a historic fort in the Old Delhi neighbourhood of Delhi, India, that historically served as the main residence of the Mughal emperors. Emperor Shah Jahan commissioned construction of the Red Fort on 12th May 1638, when he decided to shift his capital from Agra to Delhi. Originally red and white, its design is credited to architect Ustad Ahmad Lahori, who also constructed the Taj Mahal. The fort represents the peak in Mughal architecture under Shah Jahan and combines Persianate palace architecture with Indian traditions.';
+
+    image.src = 'https://www.savaari.com/blog/wp-content/uploads/2022/08/marvin-castelino-z4GzALvJ8xs-unsplash-2-768x1024.jpg';
+    break;
+    case 'ElloraCaves':
+    title.innerText = 'Ellora Caves';
+    description.innerText = 'Ellora Caves are a rock-cut Hindu temple cave complex, with artwork dating from the period 600–1000 CE, located in the Aurangabad District of Maharashtra, India.Ellora is a UNESCO World Heritage Site.All of the Ellora monuments were built during the Rashtrakuta dynasty (r. 753-982 CE), which constructed part of the Hindu and Buddhist caves and the Jain caves. Funding for the construction of the monuments was provided by royals, traders and the wealthy of the region';
+    image.src = 'https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2019/10/Ajanta-and-Ellora-Caves-Aurangabad.jpg?fit=800%2C600&ssl=1" class="h-full w-full rounded-xl object-cover';
+    break;
+  // Add more cases for each card here
+  default:
+    // If the query parameter is not recognized, display a default message
+  title.innerText = 'Card Not Found';
+  description.innerText = 'Sorry, we could not find the card you are looking for.';
+    break;
+}
+
+</script>
+</html>
